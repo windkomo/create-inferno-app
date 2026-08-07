@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landvart — Software &amp; services informatiques</title>
+<meta name="description" content="Depuis 2005, Landvart conçoit des logiciels sur mesure et opère l'infrastructure informatique des entreprises d'Île-de-France.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============ Tokens ============ */
+  :root{
+    --ink:        #0A101D;   /* encre nuit bleutée */
+    --ink-2:      #0E1626;   /* surface sombre */
+    --ink-line:   #1D2A44;
+    --paper:      #F6F8FB;   /* papier froid */
+    --paper-2:    #ECF0F6;
+    --card:       #FFFFFF;
+    --line:       #D9E0EA;
+    --text:       #141B2A;
+    --text-soft:  #5A6780;
+    --text-inv:   #EAF0F8;
+    --text-inv-soft: #93A1BB;
+    --accent:     #2B5BFF;   /* bleu signal */
+    --accent-deep:#1E45D6;
+    --accent-sky: #6C8DFF;   /* accent lisible sur fond sombre */
+    --ok:         #2FBF71;
+
+    --font-display:"Archivo", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-body:"IBM Plex Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-mono:"IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+    --container: 1120px;
+    --radius: 6px;
+  }
+
+  /* ============ Base ============ */
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation:none !important; transition:none !important; }
+  }
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    font-size:17px;
+    line-height:1.65;
+    color:var(--text);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  a{ color:inherit; }
+  img,svg,canvas{ max-width:100%; display:block; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
+
+  .container{ max-width:var(--container); margin-inline:auto; padding-inline:24px; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .dark .eyebrow{ color:var(--accent-sky); }
+
+  /* ============ Header ============ */
+  .site-header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,16,29,.92);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--ink-line);
+    color:var(--text-inv);
+  }
+  .site-header .container{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px; gap:24px;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:10px;
+    text-decoration:none; color:var(--text-inv);
+  }
+  .brand-mark{
+    font-family:var(--font-display); font-weight:700; font-size:20px;
+    letter-spacing:-.01em;
+  }
+  .brand-mark .dot{ color:var(--accent-sky); }
+  .brand-sub{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--text-inv-soft);
+  }
+  .main-nav{ display:flex; align-items:center; gap:28px; }
+  .main-nav a{
+    text-decoration:none; font-size:14.5px; font-weight:500;
+    color:var(--text-inv-soft);
+    transition:color .15s ease;
+  }
+  .main-nav a:hover{ color:var(--text-inv); }
+  .main-nav .nav-cta{
+    color:#fff; background:var(--accent);
+    padding:9px 16px; border-radius:var(--radius);
+    transition:background-color .15s ease;
+  }
+  .main-nav .nav-cta:hover{ background:var(--accent-deep); color:#fff; }
+  @media (max-width: 820px){
+    .main-nav a:not(.nav-cta){ display:none; }
+    .brand-sub{ display:none; }
+  }
+
+  /* ============ Hero ============ */
+  .hero{
+    position:relative;
+    background:var(--ink);
+    color:var(--text-inv);
+    overflow:hidden;
+  }
+  .hero-canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+  }
+  .hero-scrim{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(70% 90% at 28% 45%, rgba(10,16,29,.88) 0%, rgba(10,16,29,.45) 55%, rgba(10,16,29,0) 100%),
+      linear-gradient(to bottom, rgba(10,16,29,.35), rgba(10,16,29,0) 30%, rgba(10,16,29,.55) 100%);
+  }
+  .hero-inner{
+    position:relative;
+    padding:110px 0 0;
+  }
+  .hero-coords{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.12em;
+    color:var(--text-inv-soft);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:28px;
+  }
+  .hero-coords::before{
+    content:""; width:34px; height:1px; background:var(--accent-sky);
+  }
+  .hero h1{
+    font-size:clamp(38px, 5.6vw, 62px);
+    font-weight:700;
+    line-height:1.06;
+    letter-spacing:-.022em;
+    max-width:15ch;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--accent-sky);
+  }
+  .hero-lead{
+    margin-top:26px;
+    max-width:56ch;
+    font-size:19px;
+    line-height:1.6;
+    color:var(--text-inv-soft);
+  }
+  .hero-actions{
+    margin-top:38px;
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--font-body); font-weight:600; font-size:15.5px;
+    text-decoration:none;
+    padding:13px 22px;
+    border-radius:var(--radius);
+    border:1px solid transparent;
+    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .btn-primary{ background:var(--accent); color:#fff; }
+  .btn-primary:hover{ background:var(--accent-deep); }
+  .btn-ghost{
+    color:var(--text-inv); border-color:var(--ink-line); background:transparent;
+  }
+  .btn-ghost:hover{ border-color:var(--accent-sky); color:var(--accent-sky); }
+  .btn .arrow{ font-family:var(--font-mono); font-weight:400; }
+
+  .hero-status{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:26px;
+    font-family:var(--font-mono); font-size:12.5px;
+    color:var(--text-inv-soft);
+  }
+  .hero-status .pulse{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--ok);
+    box-shadow:0 0 0 3px rgba(47,191,113,.18);
+  }
+
+  .hero-stats{
+    position:relative;
+    margin-top:84px;
+    border-top:1px solid var(--ink-line);
+  }
+  .hero-stats .container{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:0;
+  }
+  .stat{
+    padding:26px 24px 30px 0;
+  }
+  .stat + .stat{ border-left:1px solid var(--ink-line); padding-left:24px; }
+  .stat-num{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(26px, 3vw, 34px);
+    letter-spacing:-.015em;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat-num sup{ font-size:.55em; color:var(--accent-sky); }
+  .stat-label{
+    margin-top:4px;
+    font-size:13.5px; color:var(--text-inv-soft);
+  }
+  @media (max-width: 820px){
+    .hero-inner{ padding-top:72px; }
+    .hero-stats .container{ grid-template-columns:1fr 1fr; }
+    .stat{ padding:20px 16px 22px 0; }
+    .stat:nth-child(3){ border-left:0; padding-left:0; border-top:1px solid var(--ink-line); }
+    .stat:nth-child(4){ border-top:1px solid var(--ink-line); }
+  }
+
+  /* ============ Sections communes ============ */
+  .section{ padding:104px 0; }
+  .section-head{
+    display:grid;
+    grid-template-columns:minmax(0, 5fr) minmax(0, 7fr);
+    gap:24px 64px;
+    align-items:end;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-size:clamp(28px, 3.6vw, 40px);
+    font-weight:650;
+    letter-spacing:-.018em;
+    line-height:1.12;
+    margin-top:14px;
+  }
+  .section-head .section-intro{
+    color:var(--text-soft);
+    max-width:52ch;
+    padding-bottom:4px;
+  }
+  @media (max-width: 820px){
+    .section{ padding:72px 0; }
+    .section-head{ grid-template-columns:1fr; gap:16px; margin-bottom:40px; }
+  }
+
+  /* Révélation discrète au scroll */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; }
+  }
+
+  /* ============ Services ============ */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  .service-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 28px 32px;
+    display:flex; flex-direction:column; gap:18px;
+    transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .service-card:hover{
+    border-color:var(--accent);
+    transform:translateY(-3px);
+    box-shadow:0 12px 32px -18px rgba(43,91,255,.35);
+  }
+  .service-tag{
+    align-self:flex-start;
+    font-family:var(--font-mono); font-size:11.5px; font-weight:500;
+    letter-spacing:.14em;
+    color:var(--accent);
+    border:1px solid currentColor;
+    border-radius:3px;
+    padding:4px 9px;
+    transition:background-color .15s ease, color .15s ease;
+  }
+  .service-card:hover .service-tag{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .service-card h3{
+    font-size:21px; font-weight:650; letter-spacing:-.01em; line-height:1.25;
+  }
+  .service-card > p{ color:var(--text-soft); font-size:15.5px; }
+  .service-list{
+    list-style:none; margin:4px 0 0; padding:0;
+    display:flex; flex-direction:column; gap:9px;
+    font-size:14.5px; color:var(--text);
+  }
+  .service-list li{
+    display:flex; gap:12px; align-items:baseline;
+  }
+  .service-list li::before{
+    content:"";
+    flex:none;
+    width:6px; height:6px;
+    background:var(--accent);
+    transform:translateY(-1px) rotate(45deg);
+  }
+  @media (max-width: 920px){
+    .services-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ============ Méthode ============ */
+  .method{ background:var(--paper-2); border-block:1px solid var(--line); }
+  .method-grid{
+    display:grid;
+    grid-template-columns:minmax(0, 5fr) minmax(0, 7fr);
+    gap:48px 64px;
+  }
+  .method-side{ position:sticky; top:96px; align-self:start; }
+  .method-side h2{
+    font-size:clamp(28px, 3.6vw, 40px); font-weight:650;
+    letter-spacing:-.018em; line-height:1.12; margin-top:14px;
+  }
+  .method-side p{
+    margin-top:18px; color:var(--text-soft); max-width:44ch;
+  }
+  .steps{ list-style:none; margin:0; padding:0; }
+  .step{
+    position:relative;
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:0 24px;
+    padding:26px 0 30px;
+  }
+  .step + .step{ border-top:1px solid var(--line); }
+  .step-num{
+    font-family:var(--font-mono); font-size:14px; font-weight:500;
+    color:var(--accent);
+    padding-top:3px;
+  }
+  .step h3{ font-size:19px; font-weight:650; letter-spacing:-.008em; }
+  .step p{ margin-top:8px; color:var(--text-soft); font-size:15.5px; max-width:52ch; }
+  @media (max-width: 920px){
+    .method-grid{ grid-template-columns:1fr; }
+    .method-side{ position:static; }
+  }
+
+  /* ============ Engagements ============ */
+  .pledges{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .pledge{
+    display:grid;
+    grid-template-columns:46px 1fr;
+    gap:20px;
+    padding:28px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  .pledge-icon{
+    width:46px; height:46px;
+    display:grid; place-items:center;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--accent);
+    background:var(--paper);
+  }
+  .pledge h3{ font-size:17.5px; font-weight:650; letter-spacing:-.005em; }
+  .pledge p{ margin-top:6px; color:var(--text-soft); font-size:15px; }
+  .certs{
+    margin-top:40px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 14px;
+  }
+  .certs-label{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--text-soft);
+    margin-right:8px;
+  }
+  .cert{
+    font-family:var(--font-mono); font-size:12.5px;
+    color:var(--text);
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:3px;
+    padding:7px 12px;
+  }
+  @media (max-width: 820px){
+    .pledges{ grid-template-columns:1fr; }
+  }
+
+  /* ============ CTA ============ */
+  .cta{
+    position:relative;
+    background:var(--ink);
+    color:var(--text-inv);
+    overflow:hidden;
+  }
+  .cta-canvas{ position:absolute; inset:0; width:100%; height:100%; opacity:.55; }
+  .cta-scrim{
+    position:absolute; inset:0;
+    background:radial-gradient(60% 100% at 50% 50%, rgba(10,16,29,.82), rgba(10,16,29,.3));
+  }
+  .cta-inner{
+    position:relative;
+    padding:96px 0;
+    text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:0;
+  }
+  .cta h2{
+    font-size:clamp(30px, 4.4vw, 48px);
+    font-weight:700; letter-spacing:-.02em; line-height:1.1;
+    margin-top:16px;
+    max-width:22ch;
+  }
+  .cta p{
+    margin-top:18px; max-width:52ch;
+    color:var(--text-inv-soft);
+  }
+  .cta .hero-actions{ justify-content:center; }
+
+  /* ============ Footer ============ */
+  .site-footer{
+    background:var(--ink);
+    color:var(--text-inv-soft);
+    border-top:1px solid var(--ink-line);
+    font-size:14.5px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);
+    gap:40px;
+    padding:64px 0 56px;
+  }
+  .footer-brand .brand-mark{ font-size:22px; color:var(--text-inv); }
+  .footer-brand p{ margin-top:14px; max-width:36ch; }
+  .footer-coords{
+    margin-top:20px;
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.1em;
+  }
+  .footer-col h3{
+    font-family:var(--font-mono); font-size:11.5px; font-weight:500;
+    letter-spacing:.14em; text-transform:uppercase;
+    color:var(--text-inv-soft);
+    margin-bottom:18px;
+  }
+  .footer-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px; }
+  .footer-col a{ text-decoration:none; color:var(--text-inv); opacity:.85; transition:opacity .15s ease, color .15s ease; }
+  .footer-col a:hover{ opacity:1; color:var(--accent-sky); }
+  .footer-bottom{
+    border-top:1px solid var(--ink-line);
+    padding:22px 0;
+    display:flex; flex-wrap:wrap; gap:12px 24px;
+    justify-content:space-between;
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.06em;
+  }
+  @media (max-width: 820px){
+    .footer-grid{ grid-template-columns:1fr; gap:36px; }
+  }
+</style>
+<noscript><style>.reveal{ opacity:1; transform:none; }</style></noscript>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="#" aria-label="Landvart — accueil">
+      <span class="brand-mark">LANDVART<span class="dot">.</span></span>
+      <span class="brand-sub">Software &amp; Services</span>
+    </a>
+    <nav class="main-nav" aria-label="Navigation principale">
+      <a href="#services">Services</a>
+      <a href="#methode">Méthode</a>
+      <a href="#engagements">Engagements</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-cta" href="#contact">Demander un devis</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero dark">
+    <canvas class="hero-canvas" id="contours-hero" aria-hidden="true"></canvas>
+    <div class="hero-scrim" aria-hidden="true"></div>
+
+    <div class="hero-inner container">
+      <p class="hero-coords">48.8352° N&nbsp;&nbsp;2.2409° E&nbsp;·&nbsp;BOULOGNE-BILLANCOURT&nbsp;·&nbsp;DEPUIS 2005</p>
+      <h1>Logiciels sur mesure, infrastructure <em>sans surprise</em>.</h1>
+      <p class="hero-lead">
+        Landvart conçoit, déploie et opère les systèmes d'information des entreprises
+        d'Île-de-France&nbsp;: du développement d'applications métier à l'exploitation
+        de vos serveurs, réseaux et environnements cloud.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Demander un devis <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="#services">Explorer nos services</a>
+      </div>
+      <p class="hero-status"><span class="pulse" aria-hidden="true"></span>Équipe disponible — réponse sous 24&nbsp;h ouvrées</p>
+    </div>
+
+    <div class="hero-stats">
+      <div class="container">
+        <div class="stat">
+          <div class="stat-num">2005</div>
+          <div class="stat-label">Année de fondation</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100<sup>+</sup></div>
+          <div class="stat-label">Entreprises accompagnées</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">6&nbsp;000<sup>+</sup></div>
+          <div class="stat-label">Utilisateurs quotidiens de nos solutions</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">24&nbsp;h</div>
+          <div class="stat-label">Livraison de matériel sur site</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">Nos services</p>
+          <h2>Trois pôles, un seul interlocuteur.</h2>
+        </div>
+        <p class="section-intro">
+          Une structure volontairement souple et polyvalente, capable de prendre en charge
+          l'ensemble des besoins informatiques de votre entreprise — et de les faire évoluer avec elle.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card reveal">
+          <span class="service-tag">DEV</span>
+          <h3>Développement sur mesure</h3>
+          <p>Des logiciels et applications web évolutifs, pensés pour vos processus métier — pas l'inverse.</p>
+          <ul class="service-list">
+            <li>Applications métier &amp; logiciels de gestion</li>
+            <li>Applications web et extranets</li>
+            <li>Interfaçage avec votre existant</li>
+            <li>Maintenance évolutive et corrective</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <span class="service-tag">NET</span>
+          <h3>Réseaux &amp; infrastructure</h3>
+          <p>Installation, sécurisation et maintenance de votre socle technique, sur site comme à distance.</p>
+          <ul class="service-list">
+            <li>Mise en place de serveurs</li>
+            <li>Virtualisation &amp; VPN</li>
+            <li>Maintenance préventive et curative</li>
+            <li>Fourniture de matériel sous 24&nbsp;h</li>
+          </ul>
+        </article>
+
+        <article class="service-card reveal">
+          <span class="service-tag">CLD</span>
+          <h3>Cloud &amp; infogérance</h3>
+          <p>Migration maîtrisée de vos serveurs, données et applications — puis supervision au quotidien.</p>
+          <ul class="service-list">
+            <li>Migration vers Microsoft Azure</li>
+            <li>Sauvegarde &amp; continuité d'activité</li>
+            <li>Supervision et infogérance</li>
+            <li>Assistance aux utilisateurs</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MÉTHODE ============ -->
+  <section class="section method" id="methode">
+    <div class="container method-grid">
+      <div class="method-side reveal">
+        <p class="eyebrow">Notre méthode</p>
+        <h2>Connaître le terrain avant de construire.</h2>
+        <p>
+          Chaque projet est piloté par un interlocuteur dédié et joignable, responsable
+          de l'analyse technique, de la communication et du suivi — du premier rendez-vous
+          à l'exploitation quotidienne.
+        </p>
+      </div>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-num" aria-hidden="true">01</span>
+          <div>
+            <h3>Cartographie</h3>
+            <p>Audit de votre existant : usages, applications, infrastructure, contraintes métier. Nous établissons une carte claire avant toute recommandation.</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-num" aria-hidden="true">02</span>
+          <div>
+            <h3>Conception</h3>
+            <p>Spécifications, architecture et chiffrage précis. Vous validez un plan lisible, sans jargon inutile ni zone d'ombre budgétaire.</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-num" aria-hidden="true">03</span>
+          <div>
+            <h3>Déploiement</h3>
+            <p>Développement, installation et mise en service par étapes, en limitant l'impact sur votre activité. Formation de vos équipes incluse.</p>
+          </div>
+        </li>
+        <li class="step reveal">
+          <span class="step-num" aria-hidden="true">04</span>
+          <div>
+            <h3>Exploitation</h3>
+            <p>Supervision, maintenance et assistance dans la durée. Plus de 6&nbsp;000 personnes utilisent nos services chaque jour chez nos clients.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ ENGAGEMENTS ============ -->
+  <section class="section" id="engagements">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">Nos engagements</p>
+          <h2>Une informatique qui tient ses promesses.</h2>
+        </div>
+        <p class="section-intro">
+          Depuis 2005, plus de 100 entreprises nous confient leur système d'information.
+          Ce qu'elles retrouvent chez Landvart, projet après projet&nbsp;:
+        </p>
+      </div>
+
+      <div class="pledges">
+        <div class="pledge reveal">
+          <span class="pledge-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+          </span>
+          <div>
+            <h3>Un interlocuteur dédié</h3>
+            <p>Un référent unique, joignable, qui connaît votre dossier — pas un ticket anonyme dans une file d'attente.</p>
+          </div>
+        </div>
+        <div class="pledge reveal">
+          <span class="pledge-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </span>
+          <div>
+            <h3>Réactivité mesurable</h3>
+            <p>Réponse sous 24&nbsp;h ouvrées, matériel livré sur site en 24&nbsp;h. Des délais annoncés, puis tenus.</p>
+          </div>
+        </div>
+        <div class="pledge reveal">
+          <span class="pledge-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          </span>
+          <div>
+            <h3>Compétences certifiées</h3>
+            <p>Des expertises validées par les éditeurs et constructeurs avec lesquels nous travaillons au quotidien.</p>
+          </div>
+        </div>
+        <div class="pledge reveal">
+          <span class="pledge-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="4"/></svg>
+          </span>
+          <div>
+            <h3>Proximité francilienne</h3>
+            <p>Basés à Boulogne-Billancourt, nous intervenons rapidement sur site partout en Île-de-France.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="certs reveal">
+        <span class="certs-label">Partenariats &amp; certifications</span>
+        <span class="cert">Microsoft Silver Certified</span>
+        <span class="cert">Microsoft Surface Partner</span>
+        <span class="cert">Citrix Certified</span>
+        <span class="cert">Revendeur Microsoft Azure</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta dark" id="contact">
+    <canvas class="cta-canvas" id="contours-cta" aria-hidden="true"></canvas>
+    <div class="cta-scrim" aria-hidden="true"></div>
+    <div class="cta-inner container">
+      <p class="eyebrow">Parlons de votre projet</p>
+      <h2>Posons ensemble la première ligne de votre carte.</h2>
+      <p>
+        Décrivez-nous votre besoin — développement, réseau, cloud ou les trois.
+        Nous revenons vers vous sous 24&nbsp;h ouvrées avec une première analyse.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://www.landvart.com/devis-en-ligne.html">Devis en ligne <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="https://www.landvart.com/contact.html">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand-mark">LANDVART<span class="dot" style="color:var(--accent-sky)">.</span></span>
+        <p>Software &amp; services informatiques. Nous concevons, déployons et opérons le système d'information des entreprises depuis 2005.</p>
+        <p class="footer-coords">48.8352° N — 2.2409° E<br>Boulogne-Billancourt · Hauts-de-Seine</p>
+      </div>
+      <nav class="footer-col" aria-label="Plan du site">
+        <h3>Plan du site</h3>
+        <ul>
+          <li><a href="#services">Nos services</a></li>
+          <li><a href="#methode">Notre méthode</a></li>
+          <li><a href="#engagements">Nos engagements</a></li>
+          <li><a href="#contact">Contact &amp; devis</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <h3>Accès directs</h3>
+        <ul>
+          <li><a href="https://www.landvart.com/devis-en-ligne.html">Demande de devis en ligne</a></li>
+          <li><a href="https://www.landvart.com/extranet/extranet.php">Extranet client</a></li>
+          <li><a href="https://www.landvart.com/contact.html">Formulaire de contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 LANDVART — TOUS DROITS RÉSERVÉS</span>
+      <span>SOFTWARE &amp; SERVICES INFORMATIQUES</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* --- Générateur pseudo-aléatoire déterministe : le relief est le même à chaque visite --- */
+  function mulberry32(seed){
+    return function(){
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  /* --- Lignes de niveau : crêtes superposées, statiques --- */
+  function drawContours(canvas, seed){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var rect = canvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+    canvas.width  = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    var rnd = mulberry32(seed);
+    var w = rect.width, h = rect.height;
+
+    /* Repères en croix, très discrets */
+    ctx.strokeStyle = "rgba(108,141,255,0.10)";
+    ctx.lineWidth = 1;
+    var gs = 170;
+    for (var gx = gs; gx < w; gx += gs){
+      for (var gy = gs * 0.6; gy < h; gy += gs * 0.75){
+        ctx.beginPath();
+        ctx.moveTo(gx - 5, gy); ctx.lineTo(gx + 5, gy);
+        ctx.moveTo(gx, gy - 5); ctx.lineTo(gx, gy + 5);
+        ctx.stroke();
+      }
+    }
+
+    /* Courbes de niveau */
+    var lines = Math.max(16, Math.round(h / 26));
+    ctx.font = "10px 'IBM Plex Mono', monospace";
+    for (var i = 0; i < lines; i++){
+      var baseY = h * (0.06 + 0.88 * i / (lines - 1));
+      var a1 = 10 + rnd() * 26, f1 = 0.002 + rnd() * 0.003, p1 = rnd() * Math.PI * 2;
+      var a2 = 4  + rnd() * 12, f2 = 0.006 + rnd() * 0.006, p2 = rnd() * Math.PI * 2;
+      var a3 = 1.5 + rnd() * 4, f3 = 0.014 + rnd() * 0.012, p3 = rnd() * Math.PI * 2;
+      var major = (i % 5 === 2);
+
+      ctx.beginPath();
+      for (var x = -20; x <= w + 20; x += 6){
+        var y = baseY
+          + a1 * Math.sin(x * f1 + p1)
+          + a2 * Math.sin(x * f2 + p2)
+          + a3 * Math.sin(x * f3 + p3);
+        if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = major ? "rgba(108,141,255,0.30)" : "rgba(108,141,255,0.11)";
+      ctx.lineWidth = major ? 1.2 : 1;
+      ctx.stroke();
+
+      /* Cote d'altitude sur les courbes maîtresses */
+      if (major){
+        var lx = w * (0.55 + rnd() * 0.38);
+        var ly = baseY
+          + a1 * Math.sin(lx * f1 + p1)
+          + a2 * Math.sin(lx * f2 + p2)
+          + a3 * Math.sin(lx * f3 + p3);
+        var alt = 40 + Math.round((1 - i / lines) * 140);
+        ctx.fillStyle = "rgba(10,16,29,0.9)";
+        ctx.fillRect(lx - 4, ly - 7, 40, 14);
+        ctx.fillStyle = "rgba(108,141,255,0.55)";
+        ctx.fillText("· " + alt + " m", lx, ly + 3);
+      }
+    }
+  }
+
+  var canvases = [
+    { el: document.getElementById("contours-hero"), seed: 20050614 },
+    { el: document.getElementById("contours-cta"),  seed: 48283522 }
+  ];
+  function drawAll(){
+    canvases.forEach(function(c){ if (c.el) drawContours(c.el, c.seed); });
+  }
+  drawAll();
+  var resizeTimer;
+  window.addEventListener("resize", function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(drawAll, 150);
+  });
+
+  /* --- Révélation discrète au scroll --- */
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reveals = document.querySelectorAll(".reveal");
+  if (reduced || !("IntersectionObserver" in window)){
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
